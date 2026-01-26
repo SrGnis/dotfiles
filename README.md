@@ -31,6 +31,7 @@ A clean, modular dotfiles management system focusing on Bash and CLI tools.
 ### 1. Prerequisites
 
 Ensure you have the following installed:
+
 - `bash`
 - `rsync` (recommended for faster syncing)
 - `whiptail` (for the interactive extras menu)
@@ -58,19 +59,27 @@ cd bash
 "Better Mode" is a feature that replaces standard Unix commands with modern, feature-rich alternatives if they are installed on your system.
 
 ### How to use
+
 - **Toggle Command**: Run `better` in your terminal to turn the mode on or off.
 - **Keybinding**: Press `Ctrl+B` to toggle quickly.
 - **Indicator**: When Better Mode is active, you'll see a purple `[B]` in your prompt.
 
 ### Included Replacements (if installed)
+
 - `cat` ➜ `bat`
 - `ls` ➜ `lsd` or `exa`
 - `grep` ➜ `rg`
 - `find` ➜ `fd`
+- `top` ➜ `btm`
+- `htop` ➜ `btm`
+- `du` ➜ `dust`
+- `ps` ➜ `procs`
+- `duf` ➜ `duf`
 
 ## Customization
 
 To add your own configurations:
+
 1. Create a new file in `bash/config/` (e.g., `bash/config/my_custom_aliases`).
 2. Run `./install.sh` to sync it to `~/.config/bash/`.
 3. Source your bashrc: `source ~/.bashrc`.

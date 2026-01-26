@@ -40,6 +40,11 @@ _update_better_mode() {
     if command -v procs >/dev/null 2>&1; then
       alias ps='procs'
     fi
+
+    # Du -> Duf
+    if command -v duf >/dev/null 2>&1; then
+      alias du='duf'
+    fi
   else
     unalias cat 2>/dev/null
     unalias ls 2>/dev/null
@@ -49,6 +54,7 @@ _update_better_mode() {
     unalias htop 2>/dev/null
     unalias du 2>/dev/null
     unalias ps 2>/dev/null
+    unalias duf 2>/dev/null
     
     # Restore basic aliases if they exist in alias/general
     # The general aliases might need to be re-applied.
