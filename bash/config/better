@@ -24,11 +24,31 @@ _update_better_mode() {
     if command -v fd >/dev/null 2>&1; then
       alias find='fd'
     fi
+
+    # Top/Htop -> Btm
+    if command -v btm >/dev/null 2>&1; then
+      alias top='btm'
+      alias htop='btm'
+    fi
+
+    # Du -> Dust
+    if command -v dust >/dev/null 2>&1; then
+      alias du='dust'
+    fi
+
+    # Ps -> Procs
+    if command -v procs >/dev/null 2>&1; then
+      alias ps='procs'
+    fi
   else
     unalias cat 2>/dev/null
     unalias ls 2>/dev/null
     unalias grep 2>/dev/null
     unalias find 2>/dev/null
+    unalias top 2>/dev/null
+    unalias htop 2>/dev/null
+    unalias du 2>/dev/null
+    unalias ps 2>/dev/null
     
     # Restore basic aliases if they exist in alias/general
     # The general aliases might need to be re-applied.
