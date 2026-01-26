@@ -1,0 +1,20 @@
+# Only run in interactive shells
+[[ $- != *i* ]] && return
+
+# Required options
+shopt -s histappend
+shopt -s checkwinsize
+shopt -s extglob
+shopt -s globstar
+shopt -s nullglob
+
+BASH_CONFIG_DIR="${HOME}/.config/bash"
+
+# User-local paths for tools installed without sudo
+export PATH="$HOME/.bin${PATH+:$PATH}"
+export MANPATH="$HOME/.local/share/man${MANPATH+:$MANPATH}"
+
+# Load everything in a directory 
+for f in "${BASH_CONFIG_DIR}"/**/*; do
+  [[ -f "$f" ]] && source "$f"
+done

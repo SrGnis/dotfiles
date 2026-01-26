@@ -1,0 +1,23 @@
+_reset="\[$(tput sgr0)\]"
+_ob="\[$(tput setaf 2)\]["
+_cb="\[$(tput setaf 2)\]]"
+_hp="\[$(tput setaf 14)\]─"
+_tp="\[$(tput setaf 14)\]┬─"
+_lb="\n"
+
+user="\[$(tput bold setaf 11)\]\u"
+host="\[$(tput bold setaf 4)\]\h"
+userhost=$user$_reset"@"$host
+dir=$_reset":\w"
+userhostdir=$_ob$userhost$dir$_cb
+
+time=$_ob"\[$(tput setaf 14)\]\t"$_cb
+
+arrow="\[$(tput setaf 14)\]╰─>"
+dolar="\[$(tput bold setaf 1)\]$ "
+
+git="\[$(tput setaf 2)\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')"
+
+better_indicator="\[$(tput setaf 5)\]\$( [[ \"\$BETTER\" == \"true\" ]] && echo \"[B]\" )"
+
+PS1=$_tp$userhostdir$_hp$time$better_indicator$_lb$arrow$git$dolar$_reset

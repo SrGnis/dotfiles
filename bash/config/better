@@ -1,0 +1,64 @@
+# Better Mode Toggle
+# Provides a 'better' command to toggle aliases for modern tool replacements.
+
+export BETTER=${BETTER:-false}
+
+_update_better_mode() {
+  if [[ "$BETTER" == "true" ]]; then
+    # Cat -> Bat
+    if command -v bat >/dev/null 2>&1; then
+      alias cat='bat'
+    elif command -v batcat >/dev/null 2>&1; then
+      alias cat='batcat'
+    fi
+    
+    # Ls -> Lsd or Exa
+    if command -v lsd >/dev/null 2>&1; then
+      alias ls='lsd'
+    elif command -v exa >/dev/null 2>&1; then
+      alias ls='exa'
+    fi
+
+    # Grep -> Rg
+    if command -v rg >/dev/null 2>&1; then
+      alias grep='rg'
+    fi
+
+    # Find -> Fd
+    if command -v fd >/dev/null 2>&1; then
+      alias find='fd'
+    fi
+  else
+    unalias cat 2>/dev/null
+    unalias ls 2>/dev/null
+    unalias grep 2>/dev/null
+    unalias find 2>/dev/null
+    
+    # Restore basic ls aliases if they exist in alias/general
+    # (Note: aliases are usually defined after this file is sourced if we follow alphabetical/recursive order)
+    # But since we are likely sourcing everything, if we toggle OFF, we just remove the 'better' ones.
+    # The general aliases might need to be re-applied.
+    [[ -f "${HOME}/.config/bash/alias/general" ]] && source "${HOME}/.config/bash/alias/general"
+  fi
+}
+
+better() {
+  if [[ "$BETTER" == "true" ]]; then
+    export BETTER=false
+    echo "Better Mode: OFF"
+  else
+    export BETTER=true
+    echo "Better Mode: ON"
+  fi
+  _update_better_mode
+  
+  # Trigger a prompt refresh in some shells, though in Bash PS1 is evaluated every time.
+  # We just need to make sure the PS1 variable uses the dynamic check.
+}
+
+# Keybinding: Ctrl+B to toggle better mode
+# Note: Use bind -x to execute a bash function
+bind -x '"\C-b": better'
+
+# Initialize on load
+_update_better_mode

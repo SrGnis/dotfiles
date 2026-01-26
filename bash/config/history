@@ -1,0 +1,6 @@
+HISTCONTROL=ignoreboth:erasedups # Ignore and erase duplicates
+HISTIGNORE=?:??                  # Ignore one and two letter commands
+HISTFILESIZE=99999               # Max size of history file
+HISTSIZE=99999                   # Amount of history to preserve
+
+PROMPT_COMMAND="history -a; history -n"
