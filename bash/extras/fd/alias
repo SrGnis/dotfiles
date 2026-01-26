@@ -1,0 +1,2 @@
+alias fda='fd -H'
+alias fde='fd -e'
