@@ -8,14 +8,10 @@ _update_better_mode() {
     # Cat -> Bat
     if command -v bat >/dev/null 2>&1; then
       alias cat='bat'
-    elif command -v batcat >/dev/null 2>&1; then
-      alias cat='batcat'
     fi
     
-    # Ls -> Lsd or Exa
-    if command -v lsd >/dev/null 2>&1; then
-      alias ls='lsd'
-    elif command -v exa >/dev/null 2>&1; then
+    # Ls -> Exa
+    if command -v exa >/dev/null 2>&1; then
       alias ls='exa'
     fi
 
@@ -34,11 +30,12 @@ _update_better_mode() {
     unalias grep 2>/dev/null
     unalias find 2>/dev/null
     
-    # Restore basic ls aliases if they exist in alias/general
-    # (Note: aliases are usually defined after this file is sourced if we follow alphabetical/recursive order)
-    # But since we are likely sourcing everything, if we toggle OFF, we just remove the 'better' ones.
+    # Restore basic aliases if they exist in alias/general
     # The general aliases might need to be re-applied.
     [[ -f "${HOME}/.config/bash/alias/general" ]] && source "${HOME}/.config/bash/alias/general"
+
+    # Restore extra aliases if they exist in alias/extras
+    [[ -f "${HOME}/.config/bash/extras/**/alias" ]] && source "${HOME}/.config/bash/extras/**/alias"
   fi
 }
 

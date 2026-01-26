@@ -14,7 +14,14 @@ BASH_CONFIG_DIR="${HOME}/.config/bash"
 export PATH="$HOME/.bin${PATH+:$PATH}"
 export MANPATH="$HOME/.local/share/man${MANPATH+:$MANPATH}"
 
-# Load everything in a directory 
+# Load everything in a directory excluding extras directory
 for f in "${BASH_CONFIG_DIR}"/**/*; do
+  [[ "$f" == *"extras"* ]] && continue
   [[ -f "$f" ]] && source "$f"
 done
+
+# Load extras directory
+for f in "${BASH_CONFIG_DIR}/extras"/**/*; do
+  [[ -f "$f" ]] && source "$f"
+done
+

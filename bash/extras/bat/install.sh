@@ -1,20 +1,8 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-need() { command -v "$1" >/dev/null 2>&1 || { echo "Missing dependency: $1" >&2; exit 1; }; }
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/../common.sh"
 
 need curl
 need tar
-
-BIN_DIR="${HOME}/.bin"
-MAN_DIR="${HOME}/.local/share/man/man1"
-BASH_CFG_DIR="${HOME}/.config/bash"
-COMPL_DIR="${BASH_CFG_DIR}/completions"
-BASH_ALIAS_DIR="${HOME}/.config/bash/alias"
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-BAT_EXTRAS_DIR="${HOME}/.config/bash/extras/bat"
-
-mkdir -p "${BIN_DIR}" "${MAN_DIR}" "${COMPL_DIR}" "${BASH_CFG_DIR}" "${BASH_ALIAS_DIR}" "${BAT_EXTRAS_DIR}"
 
 arch="$(uname -m)"
 case "$arch" in
@@ -56,27 +44,11 @@ tar -xzf "${tarball}" -C "${tmpdir}"
 pkgdir="$(find "${tmpdir}" -mindepth 1 -maxdepth 1 -type d | head -n 1)"
 [[ -n "${pkgdir}" ]] || { echo "Unexpected archive layout" >&2; exit 1; }
 
-# Install binary
-install -m 0755 "${pkgdir}/bat" "${BIN_DIR}/bat"
+install_binary "${pkgdir}/bat" "bat"
+install_man_page "${pkgdir}/bat.1" "bat.1"
+install_completion "${pkgdir}/autocomplete/bat.bash" "bat.bash"
+install_alias "${SCRIPT_DIR}/alias" "bat"
 
-# Install man page if present
-if [[ -f "${pkgdir}/bat.1" ]]; then
-  install -m 0644 "${pkgdir}/bat.1" "${MAN_DIR}/bat.1"
-fi
-
-# Install bash completion if present
-if [[ -f "${pkgdir}/autocomplete/bat.bash" ]]; then
-  install -m 0644 "${pkgdir}/autocomplete/bat.bash" "${COMPL_DIR}/bat.bash"
-fi
-
-# Install alias file
-if [[ -f "${SCRIPT_DIR}/alias" ]]; then
-  install -m 0644 "${SCRIPT_DIR}/alias" "${BAT_EXTRAS_DIR}/alias"
-fi
-
-echo "bat installed:"
-echo "  - ${BIN_DIR}/bat"
-echo "  - man: ${MAN_DIR}/bat.1 (if present)"
-echo "  - bash completion: ${COMPL_DIR}/bat.bash (if present)"
-echo "  - alias: ${BAT_EXTRAS_DIR}/alias (if present)"
+echo "bat installation complete."
 echo "Tip: reload with: source ~/.bashrc"
+
