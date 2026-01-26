@@ -1,0 +1,4 @@
+alias rgi='rg -i'
+alias rgw='rg -w'
+alias rgl='rg --files-with-matches'
+alias rgv='rg -v'
